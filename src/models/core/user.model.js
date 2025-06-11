@@ -18,27 +18,30 @@ const userSchema = Schema(
         },
         email: {
             type: String,
+            unique: true,
             required: true
         },
-        educationalLevel: {
+        educationLevel: {
             type: String,
             required: true
         },
         interests: {
-            type: []
+            type: [String],
+            default: []
         },
-        prefferedLanguage: {
+        preferredLanguage: {
             type: String,
             required: true
         },
         bio: {
-            type:Text
+            type: String
         },
         country: {
             type: String
         },
         isPremium: {
             type: Boolean,
+            default: false
         },
         avatar: {
             type: String,
@@ -49,20 +52,21 @@ const userSchema = Schema(
         },
         password: {
             type: String,
-            required: [true, "Password is required"]
+            required: [true, "Password is required"],
+            select: false
         },
         refreshToken: {
             type: String
         }        
     },
     {
-        timestamp:true
+        timestamps:true
     }
 )
 
 userSchema.pre('save', async function (next) {
     if(!this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
