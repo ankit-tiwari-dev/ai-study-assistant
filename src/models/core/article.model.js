@@ -50,7 +50,8 @@ const articleSchema = new Schema(
             default: 0
         },
         readTime: {
-            type: String
+            type: Number,
+            default: 0
         },
         isPublished: {
             type: Boolean,
@@ -73,4 +74,4 @@ const articleSchema = new Schema(
     }
 )
 
-export const Articles = mongoose.model("Articles", articleSchema)
+export const Article = mongoose.model("Article", articleSchema)
