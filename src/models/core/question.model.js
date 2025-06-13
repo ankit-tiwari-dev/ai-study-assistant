@@ -30,8 +30,17 @@ const questionSchema = new Schema(
             default: []
         },
         subject: {
+            type: Schema.Types.ObjectId,
+            ref: "Subject"
+        },
+        topic: {
+            type: Schema.Types.ObjectId,
+            ref: "Topic"
+        },
+        status: {
             type: String,
-            required: true,
+            enum: ["open", "closed", "archived"],
+            default: "open"
         },
         images: {
             type: [String],
