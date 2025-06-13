@@ -15,7 +15,7 @@ const bookmarkSchema = new Schema(
         },
         contentType: {
             type: String,
-            enum: ["Question", "Answer", "Article"],
+            enum: ["Question", "Answer", "Article", "Video", "Topic"],
             required: true
         },
         bookmarkType: {
@@ -36,4 +36,16 @@ const bookmarkSchema = new Schema(
         timestamps: true
     }
 )
+
+bookmarkSchema.index(
+    {
+        user: 1,
+        contentId: 1,
+        contentType: 1 
+    },
+    {
+        unique: true 
+    }
+);
+
 export const Bookmark = mongoose.model("Bookmark", bookmarkSchema);
