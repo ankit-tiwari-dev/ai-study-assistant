@@ -7,7 +7,7 @@ const reportSchema = new Schema(
             ref: "User",
             required: true
         },
-        reportedContentId: {
+        contentId: {
             type: Schema.Types.ObjectId,
             required: true,
         },
