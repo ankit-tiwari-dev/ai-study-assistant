@@ -18,7 +18,7 @@ const commentSchema = new Schema(
         },
         parentType: {
             type: String,
-            enum: ["Question", "Answer", "Article"],
+            enum: ["Question", "Answer", "Article", "Video"],
             required: true
         },
         parentId: {
@@ -72,7 +72,11 @@ const commentSchema = new Schema(
                     content: {
                         type: String,
                         required: true,
-                    }
+                    },
+                    createdAt: { 
+                        type: Date,
+                        default: Date.now
+                    },
                 }
             ],
             default: []
