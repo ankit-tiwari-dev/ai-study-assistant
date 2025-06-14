@@ -15,6 +15,7 @@ const recommendationSchema = new Schema(
                 {
                     itemId: {
                         type: Schema.Types.ObjectId,
+                        refPath: 'recommendedItems.itemType'
                     },
                     itemType: {
                         type: String,
