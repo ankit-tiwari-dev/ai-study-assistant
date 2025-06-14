@@ -23,7 +23,10 @@ const bookmarkSchema = new Schema(
             enum: ["Favorite", "Read Later", "Important"],
             default: "Favorite"
         },
-        tags: [String],
+        tags:{
+            type: [String],
+            validate: [arr => arr.length <= 10, 'Too many tags']
+        },
         status: {
             type: String,
             enum: ["active", "archived", "deleted"],
