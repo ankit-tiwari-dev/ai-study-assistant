@@ -20,13 +20,15 @@ const SubjectSchema = new Schema(
     {
         name: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         code: {
             type: String,
             unique: true,
             required: true,
-            index: true
+            index: true,
+            trim: true
         },
         description: {
             type: String,
@@ -67,5 +69,20 @@ const SubjectSchema = new Schema(
         timestamps: true
     }
 );
+
+SubjectSchema.index(
+    {
+        name: 1 
+    }
+);
+
+SubjectSchema.index(
+    {
+        updatedAt: 1 
+    },
+    {
+        expireAfterSeconds: 31536000 
+    }
+) 
 
 export default mongoose.model("Subject", SubjectSchema);
