@@ -58,7 +58,7 @@ const answerSchema = new Schema(
         report: {
             type: [
                 {
-                    reportid: {
+                    reporter: {
                         type: Schema.Types.ObjectId,
                         ref: "User",
                         required: true
