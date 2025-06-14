@@ -10,6 +10,7 @@ const reportSchema = new Schema(
         contentId: {
             type: Schema.Types.ObjectId,
             required: true,
+            refPath: 'reportedType'
         },
         reportReason: {
             type: String,
@@ -17,8 +18,8 @@ const reportSchema = new Schema(
         },
         reportedType: {
             type: String,
+            required: true,
             enum: ["Question", "Answer", "Article", "Comment", "User"],
-            required: true
         },
         reportType: {
             type: String,
@@ -61,5 +62,7 @@ const reportSchema = new Schema(
         timestamps: true
     }
 )
+
+reportSchema.index({ status: 1, priority: -1 });
 
 export const Report = mongoose.model("Report", reportSchema)
