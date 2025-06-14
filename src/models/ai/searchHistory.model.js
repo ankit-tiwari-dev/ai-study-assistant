@@ -11,11 +11,13 @@ const searchHistorySchema = new Schema(
             required: true
         },
         resultsCount: {
-            type: Number
+            type: Number,
+            min: 0
         },
         searchType: {
             type: String,
-            enum: ["article", "question", "video", "topic", "all"]
+            enum: ["article", "question", "video", "topic", "all"],
+            default: "all"
         },
         aiEnhanced: {
             type: Boolean,
@@ -26,5 +28,7 @@ const searchHistorySchema = new Schema(
         timestamps: true
     }
 )
+
+searchHistorySchema.index({ user: 1, searchType: 1 });
 
 export const SearchHistory = mongoose.model("SearchHistory", searchHistorySchema) 
