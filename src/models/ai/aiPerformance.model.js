@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const AiPerformanceSchema =  new Schema(
+const aiPerformanceSchema =  new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
@@ -47,3 +47,5 @@ const AiPerformanceSchema =  new Schema(
         timestamps: true
     }
 )
+
+export const AiPerformance = mongoose.model("AiPerformace", aiPerformanceSchema)
