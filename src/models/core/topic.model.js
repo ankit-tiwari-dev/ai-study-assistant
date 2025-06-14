@@ -4,11 +4,13 @@ const topicSchema = new Schema(
     {
         title: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         description: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         slug: {
             type: String,
@@ -58,5 +60,18 @@ const topicSchema = new Schema(
         timestamps: true
     }
 )
+
+topicSchema.index(
+    {
+        subject: 1,
+        order: 1 
+    }
+); 
+
+topicSchema.index(
+    {
+        slug: 1 
+    }
+); 
 
 export const Topic = mongoose.model("Topic", topicSchema) 
