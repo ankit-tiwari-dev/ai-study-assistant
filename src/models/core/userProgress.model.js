@@ -82,4 +82,18 @@ const userProgressSchema = new Schema(
     }
 )
 
+userProgressSchema.index(
+    { 
+        user: 1,
+        topic: 1     
+    }
+);
+
+userProgressSchema.index(
+    { 
+        user: 1,
+        subject: 1 
+    }
+);
+
 export const UserProgress = mongoose.model("UserProgress", userProgressSchema)
