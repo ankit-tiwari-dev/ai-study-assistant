@@ -32,11 +32,18 @@ const usageLimitSchema = new Schema(
         },
         lastUsedAt: {
             type: Date
+        },
+        isDeleted: { 
+            type: Boolean,
+            default: false 
         }
+
     },
     {
         timestamps:true
     }
 )
+
+usageLimitSchema.index({ user: 1, aiFeature: 1, limitType: 1 });
 
 export const UsageLimit = mongoose.model("UsageLimit", usageLimitSchema)
