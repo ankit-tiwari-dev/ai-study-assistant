@@ -78,4 +78,7 @@ const answerSchema = new Schema(
     }
 )
 
+answerSchema.index({ question: 1 });
+answerSchema.index({ author: 1 });
+
 export const Answer = mongoose.model("Answer", answerSchema)
