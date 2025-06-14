@@ -16,7 +16,8 @@ const followSchema = new Schema(
         },
         status:{
             type: String,
-            enum: ["active", "unfollowed", "blocked"]
+            enum: ["active", "unfollowed", "blocked"],
+            default: "active"
         },
         isMuted:{
             type: Boolean,
