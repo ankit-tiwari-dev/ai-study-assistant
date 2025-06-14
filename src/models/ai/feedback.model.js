@@ -14,7 +14,9 @@ const feedbackSchema = new Schema(
             type: String
         },
         rating:{
-            type: Number
+            type: Number,
+            min: 0,
+            max: 5
         },
         suggestion:{
             type: String
