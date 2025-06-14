@@ -55,7 +55,7 @@ const notificationSchema = new Schema(
         channel: {
             type: String,
             enum: ["in_app", "email", "sms"],
-            default: in_app
+            default: "in_app"
         },
         priority: {
             type: String,
@@ -81,5 +81,8 @@ const notificationSchema = new Schema(
         timestamps: true
     }
 );
+
+notificationSchema.index({ recipient: 1, createdAt: -1 });
+notificationSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export const Notification = mongoose.model("Notification", notificationSchema);
