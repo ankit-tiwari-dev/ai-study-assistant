@@ -22,11 +22,13 @@ const recommendationSchema = new Schema(
                         enum: ["article", "video","question"]
                     }
                 }
-            ]
+            ],
+            validate: [arr => arr.length <= 20, 'Too many recommendations']
         },
         status: {
             type: String,
-            enum:["active", "archived", "deleted"]
+            enum:["active", "archived", "deleted"],
+            default: "active"
         },
         createdByAI:{
             type: Boolean,
@@ -37,5 +39,7 @@ const recommendationSchema = new Schema(
         timestamps: true
     }
 )
+
+recommendationSchema.index({ user: 1, contextType: 1 });
 
 export const Recommendation = mongoose.model("Recommendation", recommendationSchema)
