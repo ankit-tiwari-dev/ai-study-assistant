@@ -1,0 +1,40 @@
+import mongoose, { Schema } from "mongoose";
+
+const recommendationSchema = new Schema(
+    {
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
+        contextType: {
+            type: String,
+            enum: ["subject", "topic", "article", "question", "video"]
+        },
+        recommendedItems: {
+            type: [
+                {
+                    itemId: {
+                        type: Schema.Types.ObjectId,
+                    },
+                    itemType: {
+                        type: String,
+                        enum: ["article", "video","question"]
+                    }
+                }
+            ]
+        },
+        status: {
+            type: String,
+            enum:["active", "archived", "deleted"]
+        },
+        createdByAI:{
+            type: Boolean,
+            default: false    
+        }
+    },
+    {
+        timestamps: true
+    }
+)
+
+export const Recommendation = mongoose.model("Recommendation", recommendationSchema)
