@@ -7,14 +7,18 @@ const feedbackSchema = new Schema(
             ref: "User"
         },
         contentId: {
-            type:  Schema.Types.ObjectId
+            type:  Schema.Types.ObjectId,
+            refPath: 'contentType'
         },
         contentType:{
             type: String,
-            enum: ["Question", "Answer", "Article", "Video"]            
+            enum: ["Question", "Answer", "Article", "Video"],
+            required: true          
         },
         rating: {
             type: Number,
+            min: 0,
+            max: 5,
             default: 0
         },
         text: {
