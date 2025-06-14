@@ -50,7 +50,8 @@ const userProgressSchema = new Schema(
         },
         averageScore: {
             type: Number,
-            default: 0
+            min: 0,
+            max: 100
         },
         lastScore: {
             type: Number,
