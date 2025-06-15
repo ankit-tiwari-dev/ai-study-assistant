@@ -4,7 +4,15 @@ const feedbackSchema = new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            validate: 
+            {
+                validator: function(v) 
+                {
+                    return this.isAnonymous || !!v;
+                },
+                message: "User ID is required unless feedback is anonymous"
+            }   
         },
         contentId: {
             type:  Schema.Types.ObjectId,
@@ -52,5 +60,25 @@ const feedbackSchema = new Schema(
         timestamps: true
     }
 )
+
+feedbackSchema.index(
+    {
+        contentId: 1,
+        contentType: 1 
+    }
+);
+
+feedbackSchema.index(
+    {
+        user: 1 
+    }
+);
+
+feedbackSchema.index(
+    {
+        status: 1 
+    }
+);
+
 
 export const Feedback = mongoose.model("Feedback", feedbackSchema)
