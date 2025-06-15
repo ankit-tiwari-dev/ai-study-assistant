@@ -20,7 +20,8 @@ const topicSchema = new Schema(
         },
         subject: {
             type: Schema.Types.ObjectId,
-            ref: "Subject"
+            ref: "Subject", 
+            required: true
         },
         attachments: {
             type: [String],
@@ -41,7 +42,8 @@ const topicSchema = new Schema(
         },
         status: {
             type: String,
-            enum: ["active", "archived", "draft"]
+            enum: ["active", "archived", "draft"],
+            default: "active"
         },
         order: {
             type: Number, 
@@ -50,10 +52,6 @@ const topicSchema = new Schema(
         estimatedTime: {
             type: Number,
             default: 0
-        },
-        isActive: {
-            type: Boolean,
-            default : true
         }
     },
     {
@@ -73,5 +71,19 @@ topicSchema.index(
         slug: 1 
     }
 ); 
+
+topicSchema.index(
+    {
+        title: "text", 
+        description: "text", 
+        tags: 1 
+    }
+);
+
+topicSchema.index(
+    {
+        status: 1
+    }
+);
 
 export const Topic = mongoose.model("Topic", topicSchema) 
