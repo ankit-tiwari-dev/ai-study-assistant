@@ -1,32 +1,40 @@
 import mongoose, { Schema } from "mongoose";
 
-const milestoneSchema = new Schema({
-    title:{
-        type: String,
-        required: true
+const milestoneSchema = new Schema(
+    {
+        title:{
+            type: String,
+            required: true
+        },
+        completed: {
+            type: Boolean,
+            default: false
+        },
+        completedAt: {
+            type: Date
+        }
     },
-    completed: {
-        type: Boolean,
-        default: false
-    },
-    completedAt: {
-        type: Date
+    {
+        _id: false 
     }
-})
+)
 
 const userProgressSchema = new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            required: true
         },
         subject: {
             type: Schema.Types.ObjectId,
-            ref: "Subject"
+            ref: "Subject",
+            required: true
         },
         topic: {
             type: Schema.Types.ObjectId,
-            ref: "Topic"
+            ref: "Topic",
+            required: true
         },
         completionPercentage: {
             type: Number,
@@ -65,17 +73,21 @@ const userProgressSchema = new Schema(
             enum: ["in_progress", "completed", "not_started"],
             default: "not_started"
         },
-        isCompleted: {
-            type: Boolean,
-            default: false
-        },
         certified: {
             type: Boolean,
             default: false
         },
-        notes: {
-            type: [String],
-            default: []
+        certifiedAt: Date,
+        certificateUrl: String,
+        notes: [
+            {
+                type: [String],
+                default: []
+            }
+        ],
+        isDeleted: {
+            type: Boolean,
+            default: false
         }
     },
     {
@@ -94,6 +106,12 @@ userProgressSchema.index(
     { 
         user: 1,
         subject: 1 
+    }
+);
+
+userProgressSchema.index(
+    { 
+        status: 1 
     }
 );
 
