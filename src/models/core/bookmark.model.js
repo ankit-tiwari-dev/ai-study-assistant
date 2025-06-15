@@ -8,6 +8,7 @@ const bookmarkSchema = new Schema(
             required: true,
             index: true
         },
+        title: String,
         contentId: {
             type: Schema.Types.ObjectId,
             required: true,
