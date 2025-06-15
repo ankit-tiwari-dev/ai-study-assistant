@@ -6,12 +6,8 @@ const articleSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        authorName: {
-            type: String
-        },
-        authorAvatar: {
-            type: String
-        },
+        authorName: String,
+        authorAvatar: String,
         title: {
             type: String,
             required: true
@@ -33,6 +29,16 @@ const articleSchema = new Schema(
             type: [String], 
             default: []
         },
+        status: {
+            type: String,
+            enum: ["draft", "published", "archived"],
+            default: "draft"
+        },
+        publishedAt: Date,
+        featured: {
+            type: Boolean,
+            default: false
+        },
         viewsCount: {
             type: Number,
             default: 0
@@ -41,10 +47,12 @@ const articleSchema = new Schema(
             type: Number,
             default: 0
         },
-        bookmarkedBy: [{
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        }],
+        bookmarkedBy: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User"
+            }
+        ],
         commentsCount: {
             type: Number,
             default: 0
@@ -52,10 +60,6 @@ const articleSchema = new Schema(
         readTime: {
             type: Number,
             default: 0
-        },
-        isPublished: {
-            type: Boolean,
-            default: false
         },
         isFlagged: {
             type: Boolean,
