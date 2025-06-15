@@ -1,5 +1,25 @@
 import mongoose, { Schema } from "mongoose";
 
+const replierSchema = new Schema(
+    {
+        replier: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true
+        },
+        content: {
+            type: String,
+            required: true,
+        },
+        createdAt: { 
+            type: Date,
+            default: Date.now
+        },
+    },
+    {
+        _id: false
+    }
+)
 const commentSchema = new Schema(
     {
         author: {
@@ -47,7 +67,7 @@ const commentSchema = new Schema(
         report: {
             type: [
                 {
-                    reportid: {
+                    reporter: {
                         type: Schema.Types.ObjectId,
                         ref: "User",
                         required: true
@@ -57,29 +77,19 @@ const commentSchema = new Schema(
             ],
             default: []
         },
+        editedAt: Date,
+        updatedAt: Date,
         isEdited: {
             type: Boolean,
             default: false
         },
         replies: {
-            type: [
-                {
-                    replier: {
-                        type: Schema.Types.ObjectId,
-                        ref: "User",
-                        required: true
-                    },
-                    content: {
-                        type: String,
-                        required: true,
-                    },
-                    createdAt: { 
-                        type: Date,
-                        default: Date.now
-                    },
-                }
-            ],
+            type: [replierSchema],
             default: []
+        },
+        status: {
+            type: String,
+            enum: ["active", "deleted", "archived"]
         }
     },
     {
