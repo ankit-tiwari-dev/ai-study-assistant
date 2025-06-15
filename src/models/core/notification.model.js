@@ -42,16 +42,12 @@ const notificationSchema = new Schema(
             type: Boolean,
             default: false
         },
-        seenAt: {
-            type: Date
-        },
+        seenAt: Date,
         delivered: {
             type: Boolean,
             default: false
         },
-        deliveredAt: {
-            type: Date
-        },
+        deliveredAt: Date,
         channel: {
             type: String,
             enum: ["in_app", "email", "sms"],
@@ -62,9 +58,7 @@ const notificationSchema = new Schema(
             enum: ["low", "medium", "high"],
             default: "medium"
         },
-        expiresAt: {
-            type: Date
-        },
+        expiresAt: Date,
         retries: {
             type: Number,
             default: 0
@@ -74,7 +68,8 @@ const notificationSchema = new Schema(
         },
         notificationId: {
             type: String,
-            unique: true
+            unique: true,
+            required: true
         }
     },
     {
@@ -84,5 +79,6 @@ const notificationSchema = new Schema(
 
 notificationSchema.index({ recipient: 1, createdAt: -1 });
 notificationSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+notificationSchema.index({ recipient: 1, isRead: 1 });
 
 export const Notification = mongoose.model("Notification", notificationSchema);
