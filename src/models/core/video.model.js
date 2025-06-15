@@ -6,6 +6,13 @@ const videoSchema = new Schema(
             type: String,
             required: true
         },
+        slug: {
+            type: String,
+            unique: true,
+            required: true,
+            lowercase: true,
+            trim: true
+        },
         description : {
             type: String,
             required: true
@@ -34,6 +41,7 @@ const videoSchema = new Schema(
             type : String,
             required: true
         },
+        transcriptText: String,
         tags: [String],
         duration: {
             type: Number,
@@ -51,22 +59,61 @@ const videoSchema = new Schema(
             type : Number,
             default: 0
         },
+        language: { 
+            type: String, 
+            default: "English" 
+        },
+        difficultyLevel: {
+            type: String,
+            enum: ["beginner", "intermediate", "advanced"],
+            default: "beginner"
+        },
         status: {
             type : String,
             enum: ["published", "draft", "archived"],
             default: "published"
         },
-        isActive: {
-            type : Boolean,
-            default: true
-        }
+        isFlagged: { 
+            type: Boolean, 
+            default: false 
+        },
+        flagReason: String
     },
     {
         timestamps: true
     }
 )
 
-videoSchema.index({ subject: 1 });
-videoSchema.index({ topic: 1 });
+videoSchema.index(
+    { 
+        title: "text", 
+        description: "text", 
+        tags: 1 
+    }
+);
 
+videoSchema.index(
+    { 
+        subject: 1 
+    }
+);
+
+videoSchema.index(
+    {
+        topic: 1 
+    }
+);
+
+videoSchema.index(
+    {
+        uploadedBy: 1 
+    }
+);
+
+videoSchema.index(
+    {
+        status: 1 
+    }
+);
+    
 export const Video = mongoose.model("Video", videoSchema)
