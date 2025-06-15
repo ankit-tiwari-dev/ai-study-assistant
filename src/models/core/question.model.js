@@ -6,12 +6,8 @@ const questionSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        authorName: {
-            type: String,
-        },
-        authorAvatar: {
-            type: String
-        },
+        authorName: String,
+        authorAvatar: String,
         title: {
             type: String,
             required: true
@@ -54,10 +50,6 @@ const questionSchema = new Schema(
             type: Number,
             default: 0
         },
-        bookmarkedBy: [{
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        }],
         commentsCount: {
             type: Number,
             default: 0
@@ -66,9 +58,7 @@ const questionSchema = new Schema(
             type: Boolean,
             default: false
         },
-        flagReason: {
-            type: String
-        },
+        flagReason: String,
         isReviewed: {
             type: Boolean,
             default: false
@@ -77,10 +67,12 @@ const questionSchema = new Schema(
             type: Boolean,
             default: false
         },
-        acceptedAnswers: {
-            type: Schema.Types.ObjectId,
-            ref: "Answer"
-        }
+        acceptedAnswers: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Answer"
+            }
+        ]
     },
     {
         timestamps: true
@@ -88,5 +80,10 @@ const questionSchema = new Schema(
 )
 
 questionSchema.index({ title: "text", description: "text" });
+questionSchema.index({ tags: 1 });
+questionSchema.index({ subject: 1 });
+questionSchema.index({ topic: 1 });
+questionSchema.index({ status: 1 });
+questionSchema.index({ isSolved: 1 });
 
 export const Question = mongoose.model("Question", questionSchema)
