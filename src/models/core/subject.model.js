@@ -52,17 +52,14 @@ const SubjectSchema = new Schema(
             enum: ['active', 'archived', 'inactive'],
             default: 'active'
         },
-        category: {
-            type: String,
-            required: false
-        },
-        syllabusUrl: {
-            type: String
-        },
+        category: String,
+        syllabusUrl: String,
         attachments: [attachmentSchema],
-        isActive: {
-            type: Boolean,
-            default: true
+        slug: {
+            type: String,
+            unique: true,
+            lowercase: true,
+            trim: true
         }
     },
     {
@@ -72,17 +69,12 @@ const SubjectSchema = new Schema(
 
 SubjectSchema.index(
     {
-        name: 1 
+        name: 'text' 
+    },
+    {
+        description: 'text'
     }
 );
 
-SubjectSchema.index(
-    {
-        updatedAt: 1 
-    },
-    {
-        expireAfterSeconds: 31536000 
-    }
-) 
 
 export default mongoose.model("Subject", SubjectSchema);
