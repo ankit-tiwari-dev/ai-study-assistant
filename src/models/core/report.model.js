@@ -44,25 +44,35 @@ const reportSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        reviewNotes: {
-            type: String
-        },
+        reviewNotes: String,
         resolutionOutcome: {
             type: String,
             enum: ["resolved", "rejected", "escalated"]
         },
-        reviewedAt: {
-            type: Date
-        },
-        resolvedAt: {
-            type: Date
-        }
+        reviewedAt: Date,
+        resolvedAt: Date
     },
     {
         timestamps: true
     }
 )
 
-reportSchema.index({ status: 1, priority: -1 });
+reportSchema.index(
+    { 
+        reporter: 1, 
+        contentId: 1,
+        reportedType: 1 
+    },
+    {
+        unique: true 
+    }
+);
+
+reportSchema.index(
+    {
+        status: 1, 
+        priority: -1 
+    }
+);
 
 export const Report = mongoose.model("Report", reportSchema)
