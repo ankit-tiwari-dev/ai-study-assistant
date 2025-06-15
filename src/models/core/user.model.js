@@ -19,7 +19,10 @@ const userSchema = Schema(
         email: {
             type: String,
             unique: true,
-            required: true
+            required: true,
+            lowercase: true,
+            trim: true,
+            match: /^\S+@\S+\.\S+$/
         },
         educationLevel: {
             type: String,
@@ -33,12 +36,8 @@ const userSchema = Schema(
             type: String,
             required: true
         },
-        bio: {
-            type: String
-        },
-        country: {
-            type: String
-        },
+        bio: String,
+        country: String,
         isPremium: {
             type: Boolean,
             default: false
@@ -47,22 +46,39 @@ const userSchema = Schema(
             type: String,
             required: true
         },
-        coverImage: {
-            type: String
-        },
+        coverImage: String,
         password: {
             type: String,
             required: [true, "Password is required"],
             select: false
         },
         refreshToken: {
-            type: String
-        }        
+            type: String,
+            select: false
+        },   
+        isDeleted: {
+            type: Boolean,
+            default: false
+        },
+        role: {
+            type: String,
+            enum: ['user', 'admin', 'moderator'],
+            default: 'user'
+        },
+        provider: {
+            type: String,
+            enum: ["local", "google", "github"],
+            default: "local"
+        },
+        providerId: String,
     },
     {
         timestamps:true
     }
 )
+
+userSchema.index({ email: 1 });
+userSchema.index({ createdAt: -1 });
 
 userSchema.pre('save', async function (next) {
     if(!this.isModified("password")) return next();
@@ -84,7 +100,7 @@ userSchema.methods.generateAccessToken = function () {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: ACCESS_TOKEN_EXPIRY
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
 }
