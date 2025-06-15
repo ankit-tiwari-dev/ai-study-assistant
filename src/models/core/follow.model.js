@@ -4,11 +4,13 @@ const followSchema = new Schema(
     {
         follower:{
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            required: true
         },
         following:{
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            required: true
         },
         followedAt:{
             type: Date,
@@ -34,5 +36,7 @@ const followSchema = new Schema(
 )
 
 followSchema.index({ follower: 1, following: 1 }, { unique: true });
+followSchema.index({ following: 1 });
+followSchema.index({ follower: 1 });
 
 export const Follow = mongoose.model("Follow", followSchema)
